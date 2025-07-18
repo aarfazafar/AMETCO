@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { gsap } from "gsap";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/Images/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
