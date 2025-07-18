@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 // import bg from "../assets/images/IMG-20250625-WA0012.jpg";
-import bg from "../../assets/Images/heroBg.jpg";
+import bg from "../../assets/Images/hero.jpg";
 import diagram from "../../assets/Images/diagram.jpg";
 import LocationBar from "../LocationBar/LocationBar";
 import HeroCarousel from "../Carousals/HeroCarousal";
