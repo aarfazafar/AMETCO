@@ -13,6 +13,7 @@
     "@fontsource/inter": "^5.2.6",
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.1.11",
+    "cloudinary": "^2.7.0",
     "firebase": "^11.10.0",
     "framer-motion": "^12.19.2",
     "gsap": "^3.13.0",
