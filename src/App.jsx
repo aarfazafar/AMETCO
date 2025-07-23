@@ -22,13 +22,14 @@ import ProtectedRouteForAdmin from "./protectedRoutes/protectedRouteForAdmin";
 import CarousalManager from "./Components/AdminPanel/CarousalManager";
 import ProjectsManager from "./Components/AdminPanel/ProjectsManager";
 import GalleryManager from "./Components/AdminPanel/GalleryManager";
+import { AppDataProvider } from "./context/AppDataContext";
 
 const App = () => {
   useLenis();
   const [showLoader, setShowLoader] = useState(true);
 
   return (
-    <>
+    <AppDataProvider>
       {showLoader && <Loader onFinish={() => setShowLoader(false)} />}
       {!showLoader && (
         <Routes>
@@ -61,7 +62,7 @@ const App = () => {
           </Route>
         </Routes>
       )}
-    </>
+    </AppDataProvider>
   );
 };
 

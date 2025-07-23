@@ -3,11 +3,8 @@ import aboutImg1 from "../../assets/aboutImages/about-1.png";
 import aboutImg2 from "../../assets/aboutImages/about-2.png";
 import aboutImg3 from "../../assets/aboutImages/about-3.png";
 import aboutImg4 from "../../assets/aboutImages/about-4.png";
-import logo from "../../assets/Images/logo.png";
-import city from "../../assets/Images/bg-city.jpg";
-import worker from "../../assets/Images/worker.jpg";
+import hero from "../../assets/Images/hero-image.png";
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -121,6 +118,46 @@ const About = () => {
         });
       });
 
+      // grid overlay
+      const gridOverlay = document.createElement("div");
+      gridOverlay.className = "absolute inset-0 grid-overlay";
+      gridOverlay.style.cssText = `
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, 
+        transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
+      background-size: 50px 50px;
+      z-index: 10;
+    `;
+
+      const imgContainer = document.querySelector(".img-container");
+      imgContainer.appendChild(gridOverlay);
+
+      // GSAP animation timeline
+      const tl = gsap.timeline();
+      tl.fromTo(
+        ".hero-img",
+        {
+          filter: "blur(10px) brightness(0.7)",
+          scale: 1.2,
+        },
+        {
+          filter: "blur(0px) brightness(1)",
+          scale: 1,
+          duration: 2.5,
+          ease: "power3.out",
+        }
+      ).to(
+        ".grid-overlay",
+        {
+          opacity: 0,
+          duration: 2,
+          ease: "power2.in",
+          onComplete: () => {
+            gridOverlay.remove();
+          },
+        },
+        "-=1.5" // Overlap with previous animation
+      );
+
       const sections = [
         aboutRef,
         visionRef,
@@ -177,13 +214,17 @@ const About = () => {
       setTimeout(() => {
         ScrollTrigger.refresh();
       }, 200);
+      // Cleanup
+      return () => {
+        gridOverlay.remove();
+      };
     });
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="min-h-screen mt-5 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden">
+    <div className="min-h-screen mt-8 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden">
       {/* Floating background elements */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-200/20 to-indigo-300/20 rounded-full blur-xl"></div>
@@ -191,246 +232,14 @@ const About = () => {
         <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/20 to-gray-300/20 rounded-full blur-xl"></div>
         <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-gradient-to-br from-green-200/20 to-emerald-300/20 rounded-full blur-xl"></div>
       </div>
-
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
-      >
-        {/* Background image */}
+      <div className="w-full relative mt-20 md:mt-0 img-container">
         <img
-          src={city}
-          alt="Hero Visual"
-          className="absolute inset-0 w-full h-full object-cover object-bottom-left opacity-30 z-0 mix-blend-multiply pointer-events-none"
+          className="w-full object-cover hero-img"
+          src={hero}
+          alt="Hero Section"
         />
-
-        <div className="max-w-4xl mx-auto text-center z-20">
-          <div className="hero-logo mb-8">
-            <div className="inline-flex items-center justify-center h-40 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-              <img src={logo} className="w-full h-full" alt="" />
-            </div>
-          </div>
-
-          <h1 className="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-800 mb-6">
-            ABU MUSA ENGINEERING & <br />
-            <span className="text-gradient bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text text-transparent">
-              TRADING CO. SPC.
-            </span>
-          </h1>
-
-          <p className="hero-subtitle text-xl sm:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Construction, Building Maintenance & Trading Company
-          </p>
-          {/* Bottom character with message */}
-          <div className="absolute right-[30%] md:bottom-20 md:right-50 w-[150px] animate-bounce z-10">
-            <img
-              src={worker}
-              alt="Character"
-              className="w-full opacity-80 rounded-lg"
-            />
-            <div className="text-xs mt-2 text-slate-800 font-medium">
-              Making your Dreams
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <style>
-        {`
-          @keyframes fade-in {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-          }
-
-          @keyframes fade-in-delay {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes slide-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-
-          .animate-fade-in {
-            animation: fade-in 1.2s ease-out forwards;
-          }
-
-          .animate-fade-in-delay {
-            animation: fade-in-delay 1.4s ease-out forwards;
-          }
-
-          .animate-slide-up {
-            animation: slide-up 1.2s ease-out forwards;
-          }
-
-          .animate-bounce {
-            animation: bounce 2s infinite;
-          }
-
-          @keyframes bounce {
-            0%, 100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-          }
-        `}
-      </style>
-
-      {/* About Section */}
-      {/* <section ref={aboutRef} className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-8">
-                About{" "}
-                <span className="text-reveal bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text text-transparent">
-                  Us
-                </span>
-              </h2>
-
-              <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-                <p>
-                  <strong>ABU MUSA ENGINEERING & TRADING CO. SPC.</strong> We
-                  are a newly established construction, building maintenance &
-                  Trading Company. We are committed to providing high-quality,
-                  reliable and cost-effective services. Whether you're building
-                  a new structure or maintaining an existing one, we deliver
-                  innovative solutions that ensure safety, durability, and
-                  long-term value.
-                </p>
-
-                <p>
-                  Our team of experienced professionals specializes in
-                  construction, renovation, and comprehensive building
-                  maintenance services.
-                </p>
-
-                <p>
-                  Dynamic and technology-driven organization specializing in
-                  end-to-end solutions. With a focus on delivering cutting-edge
-                  technologies and reliable infrastructure, we empower
-                  businesses to operate efficiently, securely and competitively
-                  in today's digital landscape.
-                </p>
-
-                <p>
-                  Our company combines technical expertise, strong vendor
-                  partnerships and a client-first approach to offer tailored
-                  services and genuine products across various industries.
-                </p>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="image-card relative overflow-hidden rounded-2xl shadow-2xl">
-                <img
-                  src={aboutImg4}
-                  alt="Modern living room interior"
-                  className="w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-      {/* <section ref={aboutRef} className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-8">
-                About{" "}
-                <span className="text-reveal bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text text-transparent">
-                  Us
-                </span>
-              </h2>
-
-              <div className="space-y-10 text-slate-700 leading-relaxed text-lg">
-                <div className="border-l-4 border-slate-800 pl-6 italic">
-                  <p>
-                    <strong className="text-slate-900 font-semibold tracking-wide">
-                      ABU MUSA ENGINEERING & TRADING CO. SPC.
-                    </strong>{" "}
-                    is a newly established construction, building maintenance &
-                    trading company — delivering
-                    <span className="text-slate-900 font-medium">
-                      {" "}
-                      high-quality, reliable, and cost-effective services.
-                    </span>
-                  </p>
-                  <p className="mt-2">
-                    Whether you're building a new structure or maintaining an
-                    existing one, we ensure
-                    <span className="text-slate-900 font-medium">
-                      {" "}
-                      safety, durability, and long-term value
-                    </span>{" "}
-                    through innovative solutions.
-                  </p>
-                </div>
-
-                <div className="relative pl-6">
-                  <span className="absolute left-0 top-1 text-2xl text-slate-500">
-                    •
-                  </span>
-                  <p>
-                    Our experienced team excels in construction, renovation, and
-                    full-scale building maintenance.
-                  </p>
-                </div>
-
-                <div className="relative pl-6">
-                  <span className="absolute left-0 top-1 text-2xl text-slate-500">
-                    •
-                  </span>
-                  <p>
-                    We're a{" "}
-                    <span className="font-semibold text-slate-900">
-                      dynamic and tech-driven organization
-                    </span>{" "}
-                    providing end-to-end solutions. By delivering cutting-edge
-                    infrastructure and digital-first strategies, we empower
-                    businesses to operate
-                    <span className="font-semibold text-slate-900">
-                      {" "}
-                      efficiently, securely, and competitively.
-                    </span>
-                  </p>
-                </div>
-
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl shadow-inner border border-slate-200">
-                  <p className="text-slate-800">
-                    At our core, we combine{" "}
-                    <span className="font-medium">technical expertise</span>,
-                    strong vendor relationships, and a
-                    <span className="text-slate-900 font-semibold">
-                      {" "}
-                      client-first mindset
-                    </span>{" "}
-                    — offering tailor-made services and authentic solutions
-                    across industries.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="image-card relative overflow-hidden rounded-2xl shadow-2xl">
-                <img
-                  src={aboutImg4}
-                  alt="Modern living room interior"
-                  className="w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-      <AboutCard ref={aboutRef} img={aboutImg4} readMore="true"/>
+      </div>
+      <AboutCard ref={aboutRef} img={aboutImg4} readMore="true" />
 
       {/* Vision & Mission */}
       {/* bg-gradient-to-br from-slate-50 to-white */}

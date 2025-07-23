@@ -4,36 +4,18 @@ import diagram from "../../assets/Images/diagram.jpg";
 import aboutImg1 from "../../assets/aboutImages/about-1.png";
 import aboutImg2 from "../../assets/aboutImages/about-2.png";
 import aboutImg3 from "../../assets/aboutImages/about-3.png";
-
-const slides = [
-  {
-    title: "",
-    image: diagram,
-  },
-  {
-    title: "Smart Electrical Wiring",
-    image: aboutImg1,
-  },
-  {
-    title: "Modern Construction",
-    image: aboutImg2,
-  },
-  {
-    title: "Interior Renovation",
-    image: aboutImg3,
-  },
-];
+import { useAppData } from "../../context/AppDataContext";
 
 const HeroCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeoutRef = useRef(null);
-
+  const {carousel} = useAppData();
   const pause = () => clearTimeout(timeoutRef.current);
 
   const startAutoSlide = () => {
     pause();
     timeoutRef.current = setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % carousel.length);
     }, 3000);
   };
 
@@ -47,11 +29,11 @@ const HeroCarousel = () => {
   };
 
   const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentIndex((prev) => (prev - 1 + carousel.length) % carousel.length);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
+    setCurrentIndex((prev) => (prev + 1) % carousel.length);
   };
 
   return (
@@ -62,15 +44,15 @@ const HeroCarousel = () => {
           className="flex w-full h-full transition-transform duration-1000 ease-in-out z-1"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {slides.map((slide, idx) => (
+          {carousel.map((slide, idx) => (
             <div
-              key={idx}
+              key={slide.id}
               className="w-full flex-shrink-0 relative h-full brightness-90"
               onMouseEnter={pause}
               onMouseLeave={startAutoSlide}
             >
               <img
-                src={slide.image}
+                src={slide.imageUrl}
                 alt={slide.title}
                 className="w-full h-full object-cover"
               />
@@ -99,7 +81,7 @@ const HeroCarousel = () => {
 
         {/* Dots */}
         <div className="absolute bottom-4 w-full flex justify-center gap-2 z-10">
-          {slides.map((_, index) => (
+          {carousel.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}

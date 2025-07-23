@@ -1,49 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useAppData } from "../../context/AppDataContext";
 
-import bg from "../../assets/Images/hero.jpg";
-import diagram from "../../assets/Images/diagram.jpg";
-import aboutImg1 from "../../assets/aboutImages/about-1.png";
-import aboutImg2 from "../../assets/aboutImages/about-2.png";
-import aboutImg3 from "../../assets/aboutImages/about-3.png";
-import aboutImg4 from "../../assets/aboutImages/about-4.png";
-// import logo from "../../assets/Images/logo.png";
-// import city from "../../assets/Images/bg-city.jpg";
-// import worker from "../../assets/Images/worker.jpg";
-import service from "../../assets/servicesImages/service.png";
-import service1 from "../../assets/servicesImages/service1.png";
-import service2 from "../../assets/servicesImages/service2.png";
-import service3 from "../../assets/servicesImages/service3.jpg";
-import service4 from "../../assets/servicesImages/service4.png";
-
-const images = [
-  { id: 1, url: bg, title: "Modern Interior", category: "Interior" },
-  { id: 2, url: diagram, title: "Staircase Design", category: "Architecture" },
-  { id: 3, url: aboutImg1, title: "Smart Home Setup", category: "Smart Home" },
-  { id: 4, url: aboutImg2, title: "Facade Work", category: "Facade" },
-  { id: 5, url: aboutImg3, title: "Office Facade", category: "Facade" },
-  { id: 6, url: aboutImg4, title: "Modern Facade", category: "Facade" },
-  // { id: 7, url: city, title: "Urban View", category: "Cityscape" },
-  { id: 8, url: service, title: "Service Showcase", category: "Services" },
-  { id: 9, url: service1, title: "Maintenance", category: "Services" },
-  { id: 10, url: service2, title: "Renovation", category: "Services" },
-  { id: 11, url: service3, title: "Restoration", category: "Services" },
-  { id: 12, url: service4, title: "Plumbing", category: "Services" },
-];
 
 const Gallery = () => {
   const [selected, setSelected] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const intervalRef = useRef(null);
-
-  const categories = ["All", ...new Set(images.map((img) => img.category))];
+  const {gallery} = useAppData();
+  const categories = ["All", ...new Set(gallery.map((img) => img.category))];
 
   const filteredImages =
     activeCategory === "All"
-      ? images
-      : images.filter((img) => img.category === activeCategory);
+      ? gallery
+      : gallery.filter((img) => img.category === activeCategory);
 
   const nextImage = () => {
     setSelected((prev) => {
