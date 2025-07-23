@@ -22,6 +22,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import AboutCard from "./AboutCard";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -288,7 +289,7 @@ const About = () => {
       </section>
 
       {/* Portfolio Showcase */}
-      <section ref={portfolioRef} className="py-24 px-4 sm:px-6 lg:px-8">
+      <section ref={portfolioRef} className="pt-24 pb-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-6">
@@ -298,8 +299,8 @@ const About = () => {
               </span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Showcasing our expertise in construction, interior design, and
-              smart home solutions.
+              Showcasing a glimpse of our expertise in construction, interior
+              design, and smart home solutions.
             </p>
           </div>
 
@@ -514,43 +515,50 @@ const About = () => {
       {/* Contact Section */}
       <section
         ref={contactRef}
-        className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-800 to-slate-900"
+        className="pt-10 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-800 to-slate-900"
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-12">
-            <p className="text-2xl sm:text-3xl text-white/90 mb-8 italic leading-relaxed">
+            <p className="text-2xl text-white/90 mb-8 italic leading-relaxed">
               "Thank you for taking the time to learn about us!"
             </p>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-12">
-            CONTACT US
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-15">
+            GET IN TOUCH
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <div className="flex flex-col items-center text-white">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-4">
+            <a  href="tel:+96898042651" className="flex flex-col items-center text-white">
+              <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-800 rounded-full flex items-center justify-center mb-4">
                 <Phone className="w-8 h-8 text-white" />
               </div>
               <p className="text-lg font-medium">+968 98042651</p>
-            </div>
+            </a>
 
-            <div className="flex flex-col items-center text-white">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mb-4">
+            <a
+              href="mailto:info@ametcoglobal.com?subject=Service%20Enquiry&body=Hi%20Team%2C%0A%0AI%20want%20to%20know..."
+              target="_blank"
+              className="flex flex-col items-center text-white"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-800 rounded-full flex items-center justify-center mb-4">
                 <Mail className="w-8 h-8 text-white" />
               </div>
               <p className="text-lg font-medium">info@ametcoglobal.com</p>
-            </div>
+            </a>
 
-            <div className="flex flex-col items-center text-white">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mb-4">
+            <a
+              href="https://ametcoglobal.com/"
+              className="flex flex-col items-center text-white"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-800 rounded-full flex items-center justify-center mb-4">
                 <Globe className="w-8 h-8 text-white" />
               </div>
               <p className="text-lg font-medium">www.ametcoglobal.com</p>
-            </div>
+            </a>
 
             <div className="flex flex-col items-center text-white">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-800 rounded-full flex items-center justify-center mb-4">
                 <MapPin className="w-8 h-8 text-white" />
               </div>
               <div className="text-lg font-medium">
@@ -561,7 +569,7 @@ const About = () => {
           </div>
 
           <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-600 to-slate-800 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-            <span>Get In Touch</span>
+            <Link to="/contact">Drop us a message</Link>
             <ArrowRight className="ml-2 w-5 h-5" />
           </button>
         </div>

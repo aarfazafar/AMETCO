@@ -6,8 +6,8 @@ const ContactUs = () => {
 
   const customSubmit = (e) => {
     e.preventDefault();
-    // handle your form submission logic here
-    console.log("Form submitted");
+    // Formspree handles submission automatically via the form's action attribute
+    formRef.current.submit();
   };
 
   return (
@@ -33,6 +33,8 @@ const ContactUs = () => {
 
         <form
           ref={formRef}
+          action="https://formspree.io/f/xovlervo" 
+          method="POST"
           onSubmit={customSubmit}
           className="flex flex-col gap-6"
         >
@@ -58,6 +60,16 @@ const ContactUs = () => {
             placeholder="Your Message"
             className="w-full px-4 py-3 bg-transparent border border-white/30 rounded-md text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
             required
+          />
+          <input
+            type="hidden"
+            name="_subject"
+            value="New Newsletter Signup"
+          />
+          <input
+            type="hidden"
+            name="_next"
+            value="/thank-you"
           />
 
           <div className="flex items-start gap-2 text-sm text-slate-300">

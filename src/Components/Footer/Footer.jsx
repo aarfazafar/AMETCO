@@ -47,18 +47,37 @@ const Footer = () => {
 
             <div className="space-y-4">
               <h3 className="text-lg font-bold tracking-wide">CONTACT US</h3>
-              <div className="flex items-center gap-3 text-gray-300">
-                <Phone className="w-5 h-5 text-blue-400" />
-                <span>+968 98042651</span>
+              <div className="flex gap-1">
+                <a
+                  href="tel:+96898042651"
+                  className="flex items-center gap-3 text-gray-300"
+                >
+                  <Phone className="w-5 h-5 text-blue-400" />
+                  <span>+968 98042651 /</span>
+                </a>
+                <a
+                  href="tel:+96892081764"
+                  className="flex items-center gap-3 text-gray-300"
+                >
+                  {/* <Phone className="w-5 h-5 text-blue-400" /> */}
+                  <span>+968 92081764</span>
+                </a>
               </div>
-              <div className="flex items-center gap-3 text-gray-300">
+              <a
+                href="mailto:info@ametcoglobal.com?subject=Service%20Enquiry&body=Hi%20Team%2C%0A%0AI%20want%20to%20know..."
+                target="_blank"
+                className="flex items-center gap-3 text-gray-300"
+              >
                 <Mail className="w-5 h-5 text-blue-400" />
                 <span>info@ametcoglobal.com</span>
-              </div>
-              <div className="flex items-center gap-3 text-gray-300">
+              </a>
+              <a
+                href="https://ametcoglobal.com/"
+                className="flex items-center gap-3 text-gray-300"
+              >
                 <Globe className="w-5 h-5 text-blue-400" />
                 <span>www.ametcoglobal.com</span>
-              </div>
+              </a>
               <div className="flex items-start gap-3 text-gray-300">
                 <MapPin className="w-5 h-5 text-blue-400 mt-1" />
                 <div>
@@ -95,7 +114,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="mailto:support@sagiloom.com?subject=Support%20Request&body=Hi%20Team%2C%0A%0AI%20need%20help%20with..."
+                    href="mailto:info@ametcoglobal.com?subject=Support%20Request&body=Hi%20Team%2C%0A%0AI%20need%20help%20with..."
                     target="_blank"
                   >
                     Help Center

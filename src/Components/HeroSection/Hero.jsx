@@ -10,6 +10,7 @@ import diagram from "../../assets/Images/diagram.jpg";
 import LocationBar from "../LocationBar/LocationBar";
 import HeroCarousel from "../Carousals/HeroCarousal";
 import AboutCard from "../About/AboutCard";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -265,7 +266,7 @@ const Hero = () => {
             </div>
           </div>
           {/* Newsletter */}
-          <div
+          <Link to='/contact'
             id="newsletter"
             className="fixed right-[2%] bottom-[1%] w-[220px] h-[80px] bg-gradient-to-br from-slate-800 to-slate-900 flex items-center px-6 rounded-full z-50 hover:scale-[1.02] transition-all"
           >
@@ -280,7 +281,7 @@ const Hero = () => {
               <h1 className="font-light leading-tight">NEWSLETTER</h1>
               <h2 className="font-sans text-[10px]">let's subscribe</h2>
             </div>
-          </div>
+          </Link>
         </section>
 
         <style>

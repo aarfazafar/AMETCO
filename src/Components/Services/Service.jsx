@@ -20,6 +20,7 @@ import service1 from "../../assets/servicesImages/service1.png";
 import service2 from "../../assets/servicesImages/service2.png";
 import service3 from "../../assets/servicesImages/service3.jpg";
 import service4 from "../../assets/servicesImages/service4.png";
+import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
@@ -594,7 +595,7 @@ const Services = () => {
           </p>
 
           <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-            <span>Get Started</span>
+            <Link to="/projects">Get Started</Link>
             <ArrowRight className="ml-2 w-5 h-5" />
           </button>
         </div>

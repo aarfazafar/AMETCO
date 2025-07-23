@@ -55,7 +55,7 @@ const Gallery = () => {
           <span className="text-gradient bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text text-transparent"> Gallery</span>
         </h1>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
+        <div className="flex flex-wrap justify-center gap-4 mb-10 z-40">
           {categories.map((cat) => (
             <button
               key={cat}
