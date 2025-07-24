@@ -3,10 +3,15 @@ import aboutImg2 from "../../assets/aboutImages/about-2.png";
 import aboutImg3 from "../../assets/aboutImages/about-3.png";
 import aboutImg4 from "../../assets/aboutImages/about-4.png";
 import hero from "../../assets/Images/hero-image.png";
-import React, { useEffect, useRef } from "react";
+import React, {useLayoutEffect, useEffect, useRef } from "react";
 
 import { gsap } from "gsap";
+    
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+// ScrollSmoother requires ScrollTrigger
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+
+gsap.registerPlugin(ScrollTrigger,ScrollSmoother);
 import {
   Target,
   Compass,
@@ -23,8 +28,6 @@ import {
 import AboutCard from "./AboutCard";
 import { Link } from "react-router-dom";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const About = () => {
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
@@ -34,7 +37,7 @@ const About = () => {
   const servicesRef = useRef(null);
   const contactRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Debug ref assignments
     console.log("visionRef:", visionRef.current);
     console.log("missionRef:", missionRef.current);

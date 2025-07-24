@@ -1,6 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useLayoutEffect, useEffect, useRef } from "react";
 import {
   Building2,
   Wrench,
@@ -21,7 +19,13 @@ import service2 from "../../assets/servicesImages/service2.png";
 import service3 from "../../assets/servicesImages/service3.jpg";
 import service4 from "../../assets/servicesImages/service4.png";
 import { Link } from "react-router-dom";
-gsap.registerPlugin(ScrollTrigger);
+import { gsap } from "gsap";
+    
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+// ScrollSmoother requires ScrollTrigger
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+
+gsap.registerPlugin(ScrollTrigger,ScrollSmoother);
 
 const Services = () => {
   const heroRef = useRef(null);
@@ -32,7 +36,7 @@ const Services = () => {
   const exteriorRef = useRef(null);
   const galleryRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Hero Animation
       const heroTimeline = gsap.timeline();
