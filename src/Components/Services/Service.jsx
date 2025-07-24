@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { motion, useInView } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -34,6 +35,19 @@ const Services = () => {
   const waterRef = useRef(null);
   const exteriorRef = useRef(null);
   const galleryRef = useRef(null);
+
+  // Framer Motion variants for section animations
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+  };
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -169,30 +183,6 @@ const Services = () => {
         );
       });
 
-      // Section animations
-      const sections = [buildingRef, renovationRef, waterRef, exteriorRef];
-
-      sections.forEach((sectionRef) => {
-        if (sectionRef.current) {
-          gsap.fromTo(
-            sectionRef.current.children,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              stagger: 0.1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 90%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
-        }
-      });
-
       // Floating background elements
       gsap.to(".floating-element", {
         y: -20,
@@ -212,11 +202,11 @@ const Services = () => {
       className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
     >
       {/* Floating background elements */}
-      {/* <div className="fixed inset-0 pointer-events-none z-[-1]">
+      <div className="fixed inset-0 pointer-events-none z-[-1]">
         <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-slate-200/10 to-slate-300/10 rounded-full blur-lg"></div>
         <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-blue-200/10 to-indigo-300/10 rounded-full blur-lg"></div>
         <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/10 to-slate-400/10 rounded-full blur-lg"></div>
-      </div> */}
+      </div>
 
       {/* Hero Section */}
       <section
@@ -265,7 +255,13 @@ const Services = () => {
       </section>
 
       {/* Building Construction Section */}
-      <section ref={buildingRef} className="py-24 px-4 sm:px-6 lg:px-8">
+      <motion.section
+        ref={buildingRef}
+        className="py-24 px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+        variants={sectionVariants}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -333,12 +329,15 @@ const Services = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Renovation & Remodeling Section */}
-      <section
+      <motion.section
         ref={renovationRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
+        initial="hidden"
+        animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+        variants={sectionVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -409,10 +408,16 @@ const Services = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Water Treatment Plants Section */}
-      <section ref={waterRef} className="py-24 px-4 sm:px-6 lg:px-8">
+      <motion.section
+        ref={waterRef}
+        className="py-24 px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+        variants={sectionVariants}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -480,12 +485,15 @@ const Services = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Exterior Services Section */}
-      <section
+      <motion.section
         ref={exteriorRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
+        initial="hidden"
+        animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+        variants={sectionVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -537,7 +545,7 @@ const Services = () => {
 
                 <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-10 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Concrete Block Boundary Walls
                     </p>
@@ -574,11 +582,11 @@ const Services = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Call to Action */}
       <section className="py-24 bg-gradient-to-br from-slate-800 to-slate-900">
-        <div className="max-w-4xl mx-auto textinspect text-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
             Ready to Start Your Project?
           </h2>
