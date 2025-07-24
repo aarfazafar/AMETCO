@@ -22,7 +22,6 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
     
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-// ScrollSmoother requires ScrollTrigger
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 gsap.registerPlugin(ScrollTrigger,ScrollSmoother);
@@ -277,7 +276,7 @@ const Services = () => {
       {/* Building Construction Section */}
       <section ref={buildingRef} className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center z-1000">
             <div>
               <div className="flex items-center space-x-4 mb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center shadow-lg">
@@ -350,7 +349,7 @@ const Services = () => {
         ref={renovationRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-white"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-1000">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
@@ -423,7 +422,7 @@ const Services = () => {
 
       {/* Water Treatment Plants Section */}
       <section ref={waterRef} className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto z-1000">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-8">
@@ -497,7 +496,7 @@ const Services = () => {
         ref={exteriorRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-white"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-1000">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
