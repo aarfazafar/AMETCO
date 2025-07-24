@@ -35,140 +35,137 @@ const About = () => {
   const contactRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const heroTimeline = gsap.timeline();
+    // Debug ref assignments
+    console.log("visionRef:", visionRef.current);
+    console.log("missionRef:", missionRef.current);
 
-      heroTimeline
-        .fromTo(
-          heroRef.current?.querySelector(".hero-logo"),
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-        )
-        .fromTo(
-          heroRef.current?.querySelector(".hero-title"),
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
-          "-=0.6"
-        )
-        .fromTo(
-          heroRef.current?.querySelector(".hero-subtitle"),
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" },
-          "-=0.6"
-        );
+    // Only run GSAP on client side to avoid SSR issues
+    if (typeof window === "undefined") return;
 
-      gsap.to(".floating-element", {
-        y: -20,
-        duration: 3,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: -1,
-        stagger: 0.5,
-        force3D: true,
-        transformOrigin: "center center",
-        willChange: "transform",
-      });
-
-      gsap.utils.toArray(".image-card").forEach((card, index) => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            end: "bottom 15%",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        tl.fromTo(
-          card,
-          {
-            y: 60,
-            opacity: 0,
-            scale: 0.9,
-            rotationY: index % 2 === 0 ? -10 : 10,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            rotationY: 0,
-            duration: 0.8,
-            ease: "power3.out",
-          }
-        );
-
-        card.addEventListener("mouseenter", () => {
-          gsap.to(card, {
-            scale: 1.05,
-            y: -10,
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-            duration: 0.4,
-            ease: "power2.out",
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        // Floating elements animation
+        const floatingElements = document.querySelectorAll(".floating-element");
+        if (floatingElements.length > 0) {
+          gsap.to(floatingElements, {
+            y: -20,
+            duration: 3,
+            ease: "power1.inOut",
+            yoyo: true,
+            repeat: -1,
+            stagger: 0.5,
+            force3D: true,
+            transformOrigin: "center center",
+            willChange: "transform",
           });
-        });
-
-        card.addEventListener("mouseleave", () => {
-          gsap.to(card, {
-            scale: 1,
-            y: 0,
-            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-            duration: 0.4,
-            ease: "power2.out",
-          });
-        });
-      });
-
-      // grid overlay
-      const gridOverlay = document.createElement("div");
-      gridOverlay.className = "absolute inset-0 grid-overlay";
-      gridOverlay.style.cssText = `
-      background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, 
-        transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
-      background-size: 50px 50px;
-      z-index: 10;
-    `;
-
-      const imgContainer = document.querySelector(".img-container");
-      imgContainer.appendChild(gridOverlay);
-
-      // GSAP animation timeline
-      const tl = gsap.timeline();
-      tl.fromTo(
-        ".hero-img",
-        {
-          filter: "blur(10px) brightness(0.7)",
-          scale: 1.2,
-        },
-        {
-          filter: "blur(0px) brightness(1)",
-          scale: 1,
-          duration: 2.5,
-          ease: "power3.out",
+        } else {
+          console.warn("No floating elements found");
         }
-      ).to(
-        ".grid-overlay",
-        {
-          opacity: 0,
-          duration: 2,
-          ease: "power2.in",
-          onComplete: () => {
-            gridOverlay.remove();
-          },
-        },
-        "-=1.5" // Overlap with previous animation
-      );
 
-      const sections = [
-        aboutRef,
-        visionRef,
-        missionRef,
-        portfolioRef,
-        servicesRef,
-        contactRef,
-      ];
+        // Image card animations
+        gsap.utils.toArray(".image-card").forEach((card, index) => {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              end: "bottom 15%",
+              toggleActions: "play none none reverse",
+            },
+          });
 
-      sections.forEach((sectionRef) => {
-        if (sectionRef.current) {
+          tl.fromTo(
+            card,
+            {
+              y: 60,
+              opacity: 0,
+              scale: 0.9,
+              rotationY: index % 2 === 0 ? -10 : 10,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              rotationY: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            }
+          );
+
+          card.addEventListener("mouseenter", () => {
+            gsap.to(card, {
+              scale: 1.05,
+              y: -10,
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          });
+
+          card.addEventListener("mouseleave", () => {
+            gsap.to(card, {
+              scale: 1,
+              y: 0,
+              boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          });
+        });
+
+        // Grid overlay
+        const gridOverlay = document.createElement("div");
+        gridOverlay.className = "absolute inset-0 grid-overlay";
+        gridOverlay.style.cssText = `
+          background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, 
+            transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
+          background-size: 50px 50px;
+          z-index: 10;
+        `;
+
+        const imgContainer = document.querySelector(".img-container");
+        if (imgContainer) {
+          imgContainer.appendChild(gridOverlay);
+
+          const tl = gsap.timeline();
+          tl.fromTo(
+            ".hero-img",
+            {
+              filter: "blur(10px) brightness(0.7)",
+              scale: 1.2,
+            },
+            {
+              filter: "blur(0px) brightness(1)",
+              scale: 1,
+              duration: 2.5,
+              ease: "power3.out",
+            }
+          ).to(
+            ".grid-overlay",
+            {
+              opacity: 0,
+              duration: 2,
+              ease: "power2.in",
+              onComplete: () => {
+                gridOverlay.remove();
+              },
+            },
+            "-=1.5"
+          );
+        } else {
+          console.warn("Image container not found");
+        }
+
+        // Section animations with explicit ref checks
+        const sections = [
+          aboutRef,
+          visionRef,
+          missionRef,
+          portfolioRef,
+          servicesRef,
+          contactRef,
+        ].filter((ref) => ref.current);
+
+        sections.forEach((sectionRef) => {
           const children = Array.from(sectionRef.current.children);
           if (children.length > 0) {
             gsap.fromTo(
@@ -191,39 +188,16 @@ const About = () => {
           } else {
             console.warn(`No children found for section: ${sectionRef.current.id || sectionRef.current.className}`);
           }
-        } else {
-          console.warn(`Section ref is null: ${sectionRef}`);
-        }
-      });
+        });
 
-      gsap.utils.toArray(".text-reveal").forEach((text) => {
-        gsap.fromTo(
-          text,
-          {
-            backgroundPosition: "200% 0%",
-            backgroundImage:
-              "linear-gradient(90deg, transparent 0%, transparent 40%, #f59e0b 50%, transparent 60%, transparent 100%)",
-          },
-          {
-            backgroundPosition: "-200% 0%",
-            duration: 2,
-            ease: "power2.inOut",
-            scrollTrigger: {
-              trigger: text,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-
-      // 🧠 Force ScrollTrigger Refresh after mount
-      setTimeout(() => {
+        // Force ScrollTrigger refresh
         ScrollTrigger.refresh();
-      }, 500); // Increased delay to ensure DOM is fully loaded
-    });
+      });
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -235,7 +209,7 @@ const About = () => {
         <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/20 to-gray-300/20 rounded-full blur-xl"></div>
         <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-gradient-to-br from-green-200/20 to-emerald-300/20 rounded-full blur-xl"></div>
       </div>
-      <div className="w-full relative mt-20 md:mt-0 img-container">
+      <div ref={heroRef} className="w-full relative mt-20 md:mt-0 img-container">
         <img
           className="w-full object-cover hero-img"
           src={hero}
