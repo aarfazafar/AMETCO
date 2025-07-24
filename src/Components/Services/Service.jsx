@@ -36,19 +36,6 @@ const Services = () => {
   const exteriorRef = useRef(null);
   const galleryRef = useRef(null);
 
-  // Framer Motion variants for section animations
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-  };
-
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Ensure initial visibility for all animated elements
@@ -197,6 +184,19 @@ const Services = () => {
     return () => ctx.revert();
   }, []);
 
+  // Framer Motion variants for section animations
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+  };
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
@@ -255,14 +255,13 @@ const Services = () => {
       </section>
 
       {/* Building Construction Section */}
-      <motion.section
-        ref={buildingRef}
-        className="py-24 px-4 sm:px-6 lg:px-8"
-        initial="hidden"
-        animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
-        variants={sectionVariants}
-      >
-        <div className="max-w-7xl mx-auto">
+      <section ref={buildingRef} className="py-24 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto"
+          initial="hidden"
+          animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+          variants={sectionVariants}
+        >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-8">
@@ -328,18 +327,20 @@ const Services = () => {
               />
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.div>
+      </section>
 
       {/* Renovation & Remodeling Section */}
-      <motion.section
+      <section
         ref={renovationRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
-        initial="hidden"
-        animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
-        variants={sectionVariants}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          initial="hidden"
+          animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+          variants={sectionVariants}
+        >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
@@ -407,18 +408,17 @@ const Services = () => {
               </div>
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.div>
+      </section>
 
       {/* Water Treatment Plants Section */}
-      <motion.section
-        ref={waterRef}
-        className="py-24 px-4 sm:px-6 lg:px-8"
-        initial="hidden"
-        animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
-        variants={sectionVariants}
-      >
-        <div className="max-w-7xl mx-auto">
+      <section ref={waterRef} className="py-24 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto"
+          initial="hidden"
+          animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+          variants={sectionVariants}
+        >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-8">
@@ -484,18 +484,20 @@ const Services = () => {
               />
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.div>
+      </section>
 
       {/* Exterior Services Section */}
-      <motion.section
+      <section
         ref={exteriorRef}
         className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
-        initial="hidden"
-        animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
-        variants={sectionVariants}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          initial="hidden"
+          animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+          variants={sectionVariants}
+        >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
@@ -545,7 +547,7 @@ const Services = () => {
 
                 <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-10 text-green-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Concrete Block Boundary Walls
                     </p>
@@ -581,8 +583,8 @@ const Services = () => {
               </div>
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.div>
+      </section>
 
       {/* Call to Action */}
       <section className="py-24 bg-gradient-to-br from-slate-800 to-slate-900">
