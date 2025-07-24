@@ -1,4 +1,3 @@
-// Updated About.jsx with GSAP fixes
 import aboutImg1 from "../../assets/aboutImages/about-1.png";
 import aboutImg2 from "../../assets/aboutImages/about-2.png";
 import aboutImg3 from "../../assets/aboutImages/about-3.png";
@@ -170,23 +169,30 @@ const About = () => {
 
       sections.forEach((sectionRef) => {
         if (sectionRef.current) {
-          gsap.fromTo(
-            sectionRef.current.children,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              stagger: 0.15,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 75%",
-                end: "bottom 25%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
+          const children = Array.from(sectionRef.current.children);
+          if (children.length > 0) {
+            gsap.fromTo(
+              children,
+              { opacity: 0, y: 50 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: sectionRef.current,
+                  start: "top 75%",
+                  end: "bottom 25%",
+                  toggleActions: "play none none reverse",
+                },
+              }
+            );
+          } else {
+            console.warn(`No children found for section: ${sectionRef.current.id || sectionRef.current.className}`);
+          }
+        } else {
+          console.warn(`Section ref is null: ${sectionRef}`);
         }
       });
 
@@ -214,11 +220,7 @@ const About = () => {
       // 🧠 Force ScrollTrigger Refresh after mount
       setTimeout(() => {
         ScrollTrigger.refresh();
-      }, 200);
-      // Cleanup
-      return () => {
-        gridOverlay.remove();
-      };
+      }, 500); // Increased delay to ensure DOM is fully loaded
     });
 
     return () => ctx.revert();
@@ -243,13 +245,12 @@ const About = () => {
       <AboutCard ref={aboutRef} img={aboutImg4} readMore="true" />
 
       {/* Vision & Mission */}
-      {/* bg-gradient-to-br from-slate-50 to-white */}
-      <section className="py-24 bg-gradient-to-br from-slate-600 to-slate-800 ">
+      <section className="py-24 bg-gradient-to-br from-slate-600 to-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
             <div ref={visionRef} className="space-y-8">
               <div className="flex items-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-slate-700 to-slate-900  rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 bg-gradient-to-br from-slate-700 to-slate-900 rounded-xl flex items-center justify-center shadow-lg">
                   <Target className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white">Vision</h3>
@@ -264,7 +265,7 @@ const About = () => {
 
             <div ref={missionRef} className="space-y-8">
               <div className="flex items-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-slate-700 to-slate-900  rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 bg-gradient-to-br from-slate-700 to-slate-900 rounded-xl flex items-center justify-center shadow-lg">
                   <Compass className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-white">Mission</h3>
@@ -345,7 +346,7 @@ const About = () => {
               <img
                 src={aboutImg2}
                 alt="Living room design"
-                className="w-full  h-full object-cover transition-transform duration-500"
+                className="w-full h-full object-cover transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-6 left-6 right-6">
@@ -529,7 +530,7 @@ const About = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <a  href="tel:+96898042651" className="flex flex-col items-center text-white">
+            <a href="tel:+96898042651" className="flex flex-col items-center text-white">
               <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-slate-800 rounded-full flex items-center justify-center mb-4">
                 <Phone className="w-8 h-8 text-white" />
               </div>
