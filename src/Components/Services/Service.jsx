@@ -212,11 +212,11 @@ const Services = () => {
       className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
     >
       {/* Floating background elements */}
-      <div className="fixed inset-0 pointer-events-none z-[-1]">
+      {/* <div className="fixed inset-0 pointer-events-none z-[-1]">
         <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-slate-200/10 to-slate-300/10 rounded-full blur-lg"></div>
         <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-blue-200/10 to-indigo-300/10 rounded-full blur-lg"></div>
         <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/10 to-slate-400/10 rounded-full blur-lg"></div>
-      </div>
+      </div> */}
 
       {/* Hero Section */}
       <section
