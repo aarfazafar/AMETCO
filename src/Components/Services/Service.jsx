@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import {
   Building2,
   Wrench,
@@ -20,14 +20,14 @@ import service3 from "../../assets/servicesImages/service3.jpg";
 import service4 from "../../assets/servicesImages/service4.png";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-    
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-gsap.registerPlugin(ScrollTrigger,ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const Services = () => {
   const heroRef = useRef(null);
+  const wrapperRef = useRef(null);
   const servicesRef = useRef(null);
   const buildingRef = useRef(null);
   const renovationRef = useRef(null);
@@ -37,8 +37,23 @@ const Services = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Ensure initial visibility for all animated elements
+      gsap.set(".service-card, .gallery-image", { opacity: 1, y: 0, scale: 1 });
+
       // Hero Animation
       const heroTimeline = gsap.timeline();
+
+      gsap.to(wrapperRef.current, {
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: "top 90%",
+          toggleActions: "play none none reverse",
+        },
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+      });
 
       heroTimeline
         .fromTo(
@@ -60,7 +75,7 @@ const Services = () => {
             duration: 0.8,
             ease: "power2.out",
           },
-          "-=0.6" // slightly earlier for better sync
+          "-=0.6"
         )
         .fromTo(
           heroRef.current?.querySelector(".hero-subtitle"),
@@ -102,7 +117,7 @@ const Services = () => {
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 85%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           }
@@ -147,7 +162,7 @@ const Services = () => {
             ease: "power3.out",
             scrollTrigger: {
               trigger: img,
-              start: "top 85%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           }
@@ -170,7 +185,7 @@ const Services = () => {
               ease: "power3.out",
               scrollTrigger: {
                 trigger: sectionRef.current,
-                start: "top 75%",
+                start: "top 90%",
                 toggleActions: "play none none reverse",
               },
             }
@@ -193,53 +208,30 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden">
+    <div
+      className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
+    >
       {/* Floating background elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-slate-200/20 to-slate-300/20 rounded-full blur-xl"></div>
-        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-blue-200/20 to-indigo-300/20 rounded-full blur-xl"></div>
-        <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/20 to-slate-400/20 rounded-full blur-xl"></div>
+      <div className="fixed inset-0 pointer-events-none z-[-1]">
+        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-slate-200/10 to-slate-300/10 rounded-full blur-lg"></div>
+        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-blue-200/10 to-indigo-300/10 rounded-full blur-lg"></div>
+        <div className="floating-element absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-slate-200/10 to-slate-400/10 rounded-full blur-lg"></div>
       </div>
 
       {/* Hero Section */}
-      {/* <section
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="hero-logo mb-8">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-slate-600 to-slate-800 rounded-2xl shadow-2xl">
-              <Settings className="w-12 h-12 text-white" />
-            </div>
-          </div>
-
-          <h1 className="hero-title text-5xl sm:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent mb-6">
-            Our{" "}
-            <span className="text-gradient bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text">
-              Services
-            </span>
-          </h1>
-
-          <p className="hero-subtitle text-xl sm:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive construction, renovation, and engineering solutions
-            tailored to meet your specific needs.
-          </p>
-        </div>
-      </section> */}
-
       <section
         ref={heroRef}
         className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 lg:px-26 overflow-hidden"
       >
-        {/* Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/70 to-slate-100/80 z-0"></div>
-
-        {/* Background image creative blend */}
-        <img
-          src={service3}
-          alt="Hero Visual"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-20 z-0 mix-blend-multiply pointer-events-none"
-        />
+        {/* Background container */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/70 to-slate-100/80"></div>
+          <img
+            src={service3}
+            alt="Hero Visual"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-20 mix-blend-multiply pointer-events-none"
+          />
+        </div>
 
         <div className="relative z-10 w-full lg:w-1/2 text-center lg:text-left space-y-6">
           <div className="hero-logo mb-6 flex justify-center lg:justify-start">
@@ -261,7 +253,6 @@ const Services = () => {
           </p>
         </div>
 
-        {/* Image Reveal on Right */}
         <div className="hidden lg:block relative z-10 w-full lg:w-1/2 pl-12">
           <div className="hero-image overflow-hidden rounded-3xl shadow-2xl max-w-lg mx-auto">
             <img
@@ -276,54 +267,54 @@ const Services = () => {
       {/* Building Construction Section */}
       <section ref={buildingRef} className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center z-1000">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center shadow-lg">
                   <Building2 className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-4xl font-bold text-slate-800">
+                <h2 className="text-4xl font-bold text-slate-900">
                   Building Construction
                 </h2>
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Residential Projects
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Villas, Apartments, and luxury homes.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Commercial Projects
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Offices, Retail outlets, Hotels, and restaurants.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Industrial Construction
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Warehouses, Factories, Distribution centers, and other
                         Industrial buildings.
                       </p>
@@ -347,9 +338,9 @@ const Services = () => {
       {/* Renovation & Remodeling Section */}
       <section
         ref={renovationRef}
-        className="py-24 bg-gradient-to-br from-slate-50 to-white"
+        className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-1000">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
@@ -364,20 +355,20 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center shadow-lg">
                   <Hammer className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-4xl font-bold text-slate-800">
+                <h2 className="text-4xl font-bold text-slate-900">
                   Renovation & Remodeling
                 </h2>
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Home Renovations
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Kitchen and bathroom makeovers, Basement conversions,
                         Rooftop Garden Lounge, Smart Homes and whole-house
                         renovations.
@@ -386,14 +377,14 @@ const Services = () => {
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Commercial Renovations
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Office redesigns, Retail and hospitality improvements,
                         Space optimizations.
                       </p>
@@ -401,14 +392,14 @@ const Services = () => {
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Structural
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Modifications and expansions of structural works
                       </p>
                     </div>
@@ -422,41 +413,41 @@ const Services = () => {
 
       {/* Water Treatment Plants Section */}
       <section ref={waterRef} className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto z-1000">
+        <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center space-x-4 mb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
                   <Droplets className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-4xl font-bold text-slate-800">
+                <h2 className="text-4xl font-bold text-slate-900">
                   Water Treatment Plants
                 </h2>
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Sewage Treatment Plant (STP)
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Conventional, MBBR, SBR, and MBR-based STPs
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Effluent Treatment Plant (ETP)
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Customized solutions for treating industrial wastewater
                         to meet discharge or reuse standards.
                       </p>
@@ -464,14 +455,14 @@ const Services = () => {
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-6 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">
                         Reverse Osmosis Plant (RO)
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-800">
                         Industrial, commercial & residential RO systems
                       </p>
                     </div>
@@ -494,9 +485,9 @@ const Services = () => {
       {/* Exterior Services Section */}
       <section
         ref={exteriorRef}
-        className="py-24 bg-gradient-to-br from-slate-50 to-white"
+        className="py-24 bg-gradient-to-br from-slate-50 to-gray-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-1000">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="gallery-image order-2 lg:order-1">
               <img
@@ -511,70 +502,70 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center shadow-lg">
                   <TreePine className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-4xl font-bold text-slate-800">
+                <h2 className="text-4xl font-bold text-slate-900">
                   Exterior Services
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 gap-4">
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Decks, Patios, and Outdoor Living Areas
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Siding & Stucco Replacement
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Window & Door Upgrades
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Concrete Block Boundary Walls
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Security Fencing Integration
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Gates & Entryway Structures
                     </p>
                   </div>
                 </div>
 
-                <div className="service-card bg-white p-4 rounded-xl shadow-lg">
+                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-slate-700 font-medium">
+                    <p className="text-slate-800 font-medium">
                       Driveways and Landscaping Enhancements
                     </p>
                   </div>
@@ -585,10 +576,9 @@ const Services = () => {
         </div>
       </section>
 
-
       {/* Call to Action */}
       <section className="py-24 bg-gradient-to-br from-slate-800 to-slate-900">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto textinspect text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
             Ready to Start Your Project?
           </h2>
