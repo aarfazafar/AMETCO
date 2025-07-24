@@ -38,9 +38,6 @@ const Services = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Ensure initial visibility for all animated elements
-      gsap.set(".service-card, .gallery-image", { opacity: 1, y: 0, scale: 1 });
-
       // Hero Animation
       const heroTimeline = gsap.timeline();
 
@@ -101,30 +98,8 @@ const Services = () => {
           "-=0.7"
         );
 
-      // Service cards animation
-      gsap.utils.toArray(".service-card").forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          {
-            y: 60,
-            opacity: 0,
-            scale: 0.9,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-
-        // Hover animations
+      // Hover animations for service cards
+      gsap.utils.toArray(".service-card").forEach((card) => {
         card.addEventListener("mouseenter", () => {
           gsap.to(card, {
             scale: 1.02,
@@ -146,30 +121,6 @@ const Services = () => {
         });
       });
 
-      // Gallery images animation
-      gsap.utils.toArray(".gallery-image").forEach((img, index) => {
-        gsap.fromTo(
-          img,
-          {
-            scale: 0.9,
-            opacity: 0,
-            rotationY: index % 2 === 0 ? -15 : 15,
-          },
-          {
-            scale: 1,
-            opacity: 1,
-            rotationY: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: img,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-
       // Floating background elements
       gsap.to(".floating-element", {
         y: -20,
@@ -184,7 +135,7 @@ const Services = () => {
     return () => ctx.revert();
   }, []);
 
-  // Framer Motion variants for section animations
+  // Framer Motion variants for animations
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -192,7 +143,33 @@ const Services = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: [0.6, -0.05, 0.01, 0.99],
+        ease: [0.6, -0.05, 0.01, 0.99], // Approximates power3.out
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { y: 60, opacity: 0, scale: 0.9 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99], // Approximates power3.out
+      },
+    },
+  };
+
+  const galleryVariants = {
+    hidden: { scale: 0.9, opacity: 0, rotateY: (index) => (index % 2 === 0 ? -15 : 15) },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      rotateY: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99], // Approximates power3.out
       },
     },
   };
@@ -274,7 +251,12 @@ const Services = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -286,9 +268,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -300,9 +287,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -315,17 +307,23 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
 
-            <div className="gallery-image">
+            <motion.div
+              className="gallery-image"
+              initial="hidden"
+              animate={useInView(buildingRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+              variants={galleryVariants}
+              custom={0}
+            >
               <img
                 src={service2}
                 alt="Construction work"
                 className="w-full h-[75vh] object-cover rounded-2xl shadow-2xl"
               />
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </section>
@@ -342,13 +340,19 @@ const Services = () => {
           variants={sectionVariants}
         >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="gallery-image order-2 lg:order-1">
+            <motion.div
+              className="gallery-image order-2 lg:order-1"
+              initial="hidden"
+              animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+              variants={galleryVariants}
+              custom={1}
+            >
               <img
                 src={service1}
                 alt="Interior renovation"
                 className="w-full h-[75vh] object-cover rounded-2xl shadow-2xl"
               />
-            </div>
+            </motion.div>
 
             <div className="order-1 lg:order-2">
               <div className="flex items-center space-x-4 mb-8">
@@ -361,7 +365,12 @@ const Services = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -375,9 +384,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -390,9 +404,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(renovationRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-slate-600 mt-1 flex-shrink-0" />
                     <div>
@@ -404,7 +423,7 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -431,7 +450,12 @@ const Services = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
@@ -443,9 +467,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
@@ -458,9 +487,14 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-6 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-start space-x-4">
                     <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
                     <div>
@@ -472,17 +506,23 @@ const Services = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
 
-            <div className="gallery-image">
+            <motion.div
+              className="gallery-image"
+              initial="hidden"
+              animate={useInView(waterRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+              variants={galleryVariants}
+              custom={2}
+            >
               <img
                 src={service4}
                 alt="Water treatment facility"
                 className="w-full h-[75vh] object-cover rounded-2xl shadow-2xl"
               />
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </section>
@@ -499,13 +539,19 @@ const Services = () => {
           variants={sectionVariants}
         >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="gallery-image order-2 lg:order-1">
+            <motion.div
+              className="gallery-image order-2 lg:order-1"
+              initial="hidden"
+              animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+              variants={galleryVariants}
+              custom={3}
+            >
               <img
                 src={service}
                 alt="Exterior construction work"
                 className="w-full h-[75vh] object-cover rounded-2xl shadow-2xl"
               />
-            </div>
+            </motion.div>
 
             <div className="order-1 lg:order-2">
               <div className="flex items-center space-x-4 mb-8">
@@ -518,68 +564,103 @@ const Services = () => {
               </div>
 
               <div className="grid grid-cols-1 gap-4">
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Decks, Patios, and Outdoor Living Areas
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Siding & Stucco Replacement
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Window & Door Upgrades
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Concrete Block Boundary Walls
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Security Fencing Integration
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Gates & Entryway Structures
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200">
+                <motion.div
+                  className="service-card bg-gray-50 p-4 rounded-xl shadow-lg border border-slate-200"
+                  initial="hidden"
+                  animate={useInView(exteriorRef, { once: true, amount: 0.2 }) ? "visible" : "hidden"}
+                  variants={cardVariants}
+                >
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <p className="text-slate-800 font-medium">
                       Driveways and Landscaping Enhancements
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
